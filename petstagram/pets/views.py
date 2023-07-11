@@ -1,15 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from petstagram.core.photo_utils import apply_likes_count, apply_user_liked_photo
+from petstagram.pets.forms import PetCreateForm, PetDeleteForm
 from petstagram.pets.utils import get_pet_by_name_and_username
 
 
-def add_pet(request):
-    return render(request, 'pets/pet-add-page.html')
-
-
 def details_pet(request, username, pet_slug):
-    pet = get_pet_by_name_and_username(pet_slug, username)
+    pet = get_pet_by_name_and_username(username, pet_slug)
     photos = [apply_likes_count(photo) for photo in pet.photo_set.all()]
     photos = [apply_user_liked_photo(photo) for photo in photos]
 
@@ -21,9 +18,50 @@ def details_pet(request, username, pet_slug):
     return render(request, 'pets/pet-details-page.html', context)
 
 
+def add_pet(request):
+    if request.method == 'GET':
+        form = PetCreateForm()
+    else:
+        form = PetCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('details user', pk=1)  # TODO: fix this when auth
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'pets/pet-add-page.html', context)
+
+
 def edit_pet(request, username, pet_slug):
-    return render(request, 'pets/pet-edit-page.html')
+    pet = get_pet_by_name_and_username(username, pet_slug)
+    if request.method == 'GET':
+        form = PetCreateForm(instance=pet)
+    else:
+        form = PetCreateForm(request.POST, instance=pet)
+        if form.is_valid():
+            form.save()
+            return redirect('details pet', username=username, pet_slug=pet_slug)
+    context = {
+        'form': form,
+        'username': username,
+        'pet_slug': pet_slug,
+    }
+    return render(request, 'pets/pet-edit-page.html', context)
 
 
 def delete_pet(request, username, pet_slug):
-    return render(request, 'pets/pet-delete-page.html')
+    pet = get_pet_by_name_and_username(username, pet_slug)
+    if request.method == 'GET':
+        form = PetDeleteForm(instance=pet)
+    else:
+        form = PetDeleteForm(request.POST, instance=pet)
+        if form.is_valid():
+            form.save()
+            return redirect('details user', pk=1)
+    context = {
+        'form': form,
+        'username': username,
+        'pet_slug': pet_slug,
+    }
+    return render(request, 'pets/pet-delete-page.html', context)

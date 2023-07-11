@@ -30,7 +30,7 @@
     </div>
     <!-- Post image -->
     <div class="imgBx" id="{{ photo.pk }}">
-        <img src="{% static 'images/axolotl.jpeg' %}" alt="post" class="cover">
+        <img src="media/{{ photo.photo }}" alt="post" class="cover">
     </div>
     <!-- -->
 
@@ -121,8 +121,8 @@
                                 <div class="profile_img">
                                     <div class="image">
                                         <img src="{% static 'images/person.png' %}" alt="img8"></div>
-                                    </div>
                                 </div>
+                            </div>
                             <p>
                                 {# TODO: fix with auth #}
                                 <a href="">Steven Ivanov</a>
@@ -132,7 +132,7 @@
                         <span>{{ comment.publication_date_and_time }}</span></div>
                 </div>
             </div>
-            {% endfor %}
+        {% endfor %}
 
         <div class="addComments">
             <div class="reaction">

@@ -1,5 +1,4 @@
 from django.core import validators
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from petstagram.core.model_mixin import StrFromFieldsMixin
@@ -15,7 +14,7 @@ class Photo(StrFromFieldsMixin, models.Model):
     MAX_LOCATION_LEN = 30
 
     photo = models.ImageField(
-        upload_to='mediafiles/pet_photos/',
+        upload_to='pet_photos/',
         null=False,
         blank=True,
         validators=(
