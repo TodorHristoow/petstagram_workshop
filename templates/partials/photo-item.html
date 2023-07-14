@@ -32,8 +32,6 @@
     <div class="imgBx" id="{{ photo.pk }}">
         <img src="media/{{ photo.photo }}" alt="post" class="cover">
     </div>
-    <!-- -->
-
     <div class="bottom">
         <!-- like and share buttons -->
         <div class="actionBtns">
@@ -140,11 +138,10 @@
                     <i class="far fa-smile"></i>
                 </h3>
             </div>
-            <form method="post" action="#">
-                <label for="id_body">Body:</label>
-                <textarea name="body" cols="40" rows="10" placeholder="Add comment..." maxlength="300"
-                          required="" id="id_body"></textarea>
+            <form method="post" action="{% url 'comment photo' photo_id=photo.pk %}">
+                {{comment_form}}
                 <button type="submit">Post</button>
+                {% csrf_token %}
             </form>
         </div>
     </div>

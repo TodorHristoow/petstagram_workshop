@@ -3,11 +3,12 @@
 {% block page_content %}
     <div class="container">
         <div class="col-9">
-            <form class="searchbar" method="post">
-                <input type="text" placeholder="Search by pet name...">
+            <form class="searchbar" method="get" action="{% url 'index' %}">
+                {{ search_form }}
                 <button>
                     <img src="{% static "images/are_you_sure_cat.gif" %}" height="18" alt="img2">
                 </button>
+                {% csrf_token %}
             </form>
             {% for photo in photos %}
                 {% include 'partials/photo-item.html' with photo=photo %}
