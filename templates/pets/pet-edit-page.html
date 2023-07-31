@@ -5,8 +5,8 @@
         <h2>Edit Pet</h2>
         <!-- Start Edit Pet From -->
         {# TODO: fix username when auth #}
-        <form method="post" action="{% url 'edit pet' username=username pet_slug=pet_slug %}">
-            {{form.as_p}}
+        <form method="post" action="{% url 'edit pet' pet_slug=pet.slug username=username %}">
+            {{ form.as_p }}
             <button class="edit-btn" type="submit">Edit</button>
             {% csrf_token %}
         </form>

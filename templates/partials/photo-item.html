@@ -14,9 +14,11 @@
             </a>
             <h3>
                 <a href="{% url 'details user' pk=1 %}">
-                    <!-- if user has first name and last name -->
-                    Diyan Kalaydzhiev
-                    <!-- else -->
+                    {% if photo.user.get_full_name %}
+                        {{ photo.user.get_full_name }}
+                    {% else %}
+                        {{ photo.user.username }}
+                    {% endif %}
                     <!-- user username -->
                 </a>
                 <br>
@@ -139,7 +141,7 @@
                 </h3>
             </div>
             <form method="post" action="{% url 'comment photo' photo_id=photo.pk %}">
-                {{comment_form}}
+                {{ comment_form }}
                 <button type="submit">Post</button>
                 {% csrf_token %}
             </form>
